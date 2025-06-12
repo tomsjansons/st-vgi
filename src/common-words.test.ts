@@ -25,7 +25,16 @@ suite("Common words", () => {
       ["cat", "yarn", "play"],
       ["book", "blue", "read"],
     ];
-    const commonWords = new CommonWords(input);
+    const commonWords = new CommonWords(input, (w1, w2) => {
+      if (w1 === w2) {
+        return {
+          match: "exact",
+        };
+      }
+      return {
+        match: "none",
+      };
+    });
 
     expect(commonWords.isCommonWord("apple")).toBe(true);
     expect(commonWords.isCommonWord("dog")).toBe(true);

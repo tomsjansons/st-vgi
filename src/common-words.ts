@@ -1,8 +1,12 @@
+import type { wordsMatchLevel } from "./word-matcher.ts";
+
 export class CommonWords {
   private readonly commonWords: [string, number][] = [];
-  constructor(input: string[][]) {
+  constructor(input: string[][], wordMatcher: typeof wordsMatchLevel) {
     input.flat().forEach((word) => {
-      const idx = this.commonWords.findIndex(([cw]) => cw === word);
+      const idx = this.commonWords.findIndex(([cw]) =>
+        ["exact", "some"].includes(wordMatcher(word, cw).match),
+      );
       if (idx != -1) {
         this.commonWords[idx]![1] += 1;
       } else {
@@ -10,7 +14,6 @@ export class CommonWords {
       }
     });
     this.commonWords.sort((a, b) => b[1] - a[1]);
-    console.log(this.commonWords);
   }
 
   public isCommonWord(word: string): boolean {
