@@ -1,6 +1,6 @@
 import type { wordsMatchLevel } from "./word-matcher.ts";
 
-const MATX_MISSING_WORDS = 1;
+const MAX_MISSING_WORDS = 1;
 
 type EntryMatchLevel =
   | {
@@ -13,13 +13,14 @@ type EntryMatchLevel =
   | {
       match: "exact";
     };
+
 export function entryMatcher(
   entry1: string[],
   entry2: string[],
   wordMatcherLevel: typeof wordsMatchLevel,
   isCommonWord: (w: string) => boolean,
 ): EntryMatchLevel {
-  const wordMatcher = (w1: string, w2: string): boolean =>
+  const wordsMatch = (w1: string, w2: string): boolean =>
     ["some", "exact"].includes(wordMatcherLevel(w1, w2).match);
 
   if (entry1.every((word, idx) => entry2[idx] === word)) {
@@ -29,7 +30,7 @@ export function entryMatcher(
   }
 
   if (
-    entry1.every((word, idx) => entry2[idx] && wordMatcher(word, entry2[idx]))
+    entry1.every((word, idx) => entry2[idx] && wordsMatch(word, entry2[idx]))
   ) {
     return {
       match: "some",
@@ -43,7 +44,7 @@ export function entryMatcher(
   if (
     entry1NoCommon.length === entry2NoCommon.length &&
     entry1NoCommon.every((word) =>
-      entry2NoCommon.find((word2) => wordMatcher(word, word2)),
+      entry2NoCommon.find((word2) => wordsMatch(word, word2)),
     )
   ) {
     return {
@@ -54,12 +55,12 @@ export function entryMatcher(
 
   if (
     Math.abs(entry1NoCommon.length - entry2NoCommon.length) <=
-      MATX_MISSING_WORDS &&
+      MAX_MISSING_WORDS &&
     (entry1NoCommon.every((word) =>
-      entry2NoCommon.find((word2) => wordMatcher(word, word2)),
+      entry2NoCommon.find((word2) => wordsMatch(word, word2)),
     ) ||
       entry2NoCommon.every((word) =>
-        entry1NoCommon.find((word2) => wordMatcher(word, word2)),
+        entry1NoCommon.find((word2) => wordsMatch(word, word2)),
       ))
   ) {
     return {

@@ -71,8 +71,8 @@ export function wordsMatchLevel(word1: string, word2: string): WordMatchLevel {
   // covers typos
   if (
     (nonMatchCharsWord1.length || nonMatchCharsWord2.length) &&
-    (nonMatchCharsWord1.length <= MAX_WRONG_CHARS ||
-      nonMatchCharsWord2.length <= MAX_WRONG_CHARS)
+    nonMatchCharsWord1.length <= MAX_WRONG_CHARS &&
+    nonMatchCharsWord2.length <= MAX_WRONG_CHARS
   ) {
     return {
       match: "some",

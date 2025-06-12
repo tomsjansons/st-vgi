@@ -3,7 +3,10 @@ import { wordsMatchLevel } from "./word-matcher.ts";
 
 suite("Word matcher", () => {
   test("Should not match if length is off by more than 2", () => {
-    const result = wordsMatchLevel("donot", "matchatall");
+    let result = wordsMatchLevel("donot", "matchatall");
+    expect(result).toEqual({ match: "none" });
+
+    result = wordsMatchLevel("myths", "tchotchkes");
     expect(result).toEqual({ match: "none" });
   });
 
