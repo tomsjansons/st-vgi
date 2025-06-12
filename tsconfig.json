@@ -1,6 +1,10 @@
 {
   "extends": "@total-typescript/tsconfig/tsc/no-dom/app",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "target": "esnext",
+    "lib": ["ES2023"]
   }
 }

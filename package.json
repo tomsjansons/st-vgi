@@ -4,6 +4,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
+    "dev": "tsx src/index.ts",
     "test": "vitest"
   },
   "keywords": [],
