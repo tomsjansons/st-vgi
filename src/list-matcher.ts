@@ -2,7 +2,7 @@ import type { PosibleSplit } from "./word-splitter.ts";
 import type { entryMatcher } from "./entry-matcher.ts";
 import type { wordsMatchLevel } from "./word-matcher.ts";
 
-type ListEntry = {
+export type ListEntry = {
   firstOrig: string;
   firstWordSplits: string[][];
   possibleMatchesOrig: string[];
