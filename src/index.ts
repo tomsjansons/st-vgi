@@ -1,6 +1,8 @@
 import { CommonWords } from "./common-words.ts";
-import { wordsMatchLevel } from "./word-matcher.ts";
 import { getPossibleSplits } from "./word-splitter.ts";
+import { wordsMatchLevel } from "./word-matcher.ts";
+import { entryMatcher } from "./entry-matcher.ts";
+import { listMatcher } from "./list-matcher.ts";
 
 const fileUrl = process.argv[2];
 
@@ -19,4 +21,14 @@ const inputListWordSplit = inputList
 
 const commonWords = new CommonWords(inputListWordSplit, wordsMatchLevel);
 
-console.log(commonWords.isCommonWord("company"));
+const matchedList = listMatcher(
+  inputListWordSplit,
+  entryMatcher,
+  (w) => commonWords.isCommonWord(w),
+  wordsMatchLevel,
+).filter((entry) => entry.length > 1);
+
+const dedupedList = matchedList; //.filter((e) => e.length > 1);
+
+console.log(dedupedList);
+console.log(dedupedList.length);
