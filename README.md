@@ -6,9 +6,9 @@ This section is written before any investigation so some assumptions will be inc
 
 ### Individual components
 
-#### Word normalisation
+#### Word matching
 
-- Create a word normalisation process that matches words by ignoring small inconsistencies
+- Create a word matching process that matches words by ignoring small inconsistencies
   - Capitalisation (Letter vs letter)
   - Typos
     - Mixed letters (Lettre)
@@ -23,7 +23,7 @@ This section is written before any investigation so some assumptions will be inc
 - Identify common words by examining all words in the input and picking top X num of words or words about recurrence of X times
 - Words like Studio, GmbH, Ltd need to be identified and their absence/presence ignored
 - Common word list needs to be reviewed manually and exceptions identified and marked - Ubisoft is a significant word that might be recurring multiple times but can't be ignored
-- Common word identification needs to be run through word normalisation
+- Common word identification needs to be run through word matching
 - Consider how to handle geographic location names if time allows
 
 #### Word Identifier
@@ -38,4 +38,9 @@ This section is written before any investigation so some assumptions will be inc
 - Without knowing the size of the input, first attempt naive approach without any perf optimisations
   - Read in the whole file
   - First pass find common words, warn for any new common words that aren't marked as exceptions
-  - Second pass all entries and match by stripping common words and applying normalisation
+  - Second pass all entries and match by stripping common words and applying matching
+
+## After some analysis
+
+- Some special cases identified
+  - Treat &amp as a special char as it's some encoding thing from html
