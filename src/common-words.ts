@@ -4,8 +4,10 @@ export class CommonWords {
   private readonly commonWords: [string, number][] = [];
   constructor(input: string[][], wordMatcher: typeof wordsMatchLevel) {
     input.flat().forEach((word) => {
-      const idx = this.commonWords.findIndex(([cw]) =>
-        ["exact", "some"].includes(wordMatcher(word, cw).match),
+      const idx = this.commonWords.findIndex(
+        ([cw]) =>
+          Number.isNaN(Number(word)) &&
+          ["exact", "some"].includes(wordMatcher(word, cw).match),
       );
       if (idx != -1) {
         this.commonWords[idx]![1] += 1;

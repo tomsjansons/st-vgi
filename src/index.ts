@@ -12,7 +12,7 @@ if (!fileUrl) {
 
 const inputContents = await fetch(fileUrl);
 
-const inputList = (await inputContents.text()).split("\n");
+const inputList = (await inputContents.text()).split("\n").slice(0, 2000);
 console.log("Read successful, received ", inputList.length);
 
 const inputListWordSplit = inputList.map((entry) => getPossibleSplits(entry));
@@ -31,9 +31,13 @@ const matchedList = listMatcher(
   wordsMatchLevel,
 );
 
-const dedupedList = matchedList.filter(
-  (entry) => entry.possibleMatchesOrig.length > 1,
-);
+const dedupedList = matchedList;
+// .filter(
+//   (entry) => entry.possibleMatchesOrig.length > 1,
+// );
 
-console.log(dedupedList);
+dedupedList.forEach((entry) => {
+  console.log(entry.firstOrig, entry.firstWordSplits);
+  console.log(entry.possibleMatchesOrig);
+});
 console.log(dedupedList.length);

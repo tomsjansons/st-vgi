@@ -1,6 +1,6 @@
 const MAX_WORD_LEN_DIFF = 2;
+const MIN_WORD_MATCHING_LEN = 5;
 const MAX_CHAR_INDEX_DIFF = 2;
-const MAX_WRONG_CHARS = 2;
 
 type WordMatchLevel =
   | {
@@ -14,7 +14,7 @@ type WordMatchLevel =
       match: "exact";
     };
 export function wordsMatchLevel(word1: string, word2: string): WordMatchLevel {
-  if (word1.length - word2.length > MAX_WORD_LEN_DIFF) {
+  if (Math.abs(word1.length - word2.length) > MAX_WORD_LEN_DIFF) {
     return {
       match: "none",
     };
@@ -31,6 +31,21 @@ export function wordsMatchLevel(word1: string, word2: string): WordMatchLevel {
     return {
       match: "some",
       level: 1,
+    };
+  }
+
+  if (!Number.isNaN(Number(word1)) || !Number.isNaN(Number(word2))) {
+    return {
+      match: "none",
+    };
+  }
+
+  if (
+    word1.length <= MIN_WORD_MATCHING_LEN ||
+    word2.length <= MIN_WORD_MATCHING_LEN
+  ) {
+    return {
+      match: "none",
     };
   }
 
@@ -58,25 +73,6 @@ export function wordsMatchLevel(word1: string, word2: string): WordMatchLevel {
     return {
       match: "some",
       level: lcWord1.length === lcWord2.length ? 2 : 3,
-    };
-  }
-
-  const nonMatchCharsWord1 = lcWord1Arr.filter(
-    (char) => !lcWord2Arr.includes(char),
-  );
-  const nonMatchCharsWord2 = lcWord2Arr.filter(
-    (char) => !lcWord1Arr.includes(char),
-  );
-
-  // covers typos
-  if (
-    (nonMatchCharsWord1.length || nonMatchCharsWord2.length) &&
-    nonMatchCharsWord1.length <= MAX_WRONG_CHARS &&
-    nonMatchCharsWord2.length <= MAX_WRONG_CHARS
-  ) {
-    return {
-      match: "some",
-      level: 4,
     };
   }
 

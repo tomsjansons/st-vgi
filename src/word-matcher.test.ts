@@ -3,10 +3,15 @@ import { wordsMatchLevel } from "./word-matcher.ts";
 
 suite("Word matcher", () => {
   test("Should not match if length is off by more than 2", () => {
-    let result = wordsMatchLevel("donot", "matchatall");
+    const result = wordsMatchLevel("donot", "matchatall");
+    expect(result).toEqual({ match: "none" });
+  });
+
+  test("Should not match different words", () => {
+    let result = wordsMatchLevel("myths", "tchotchkes");
     expect(result).toEqual({ match: "none" });
 
-    result = wordsMatchLevel("myths", "tchotchkes");
+    result = wordsMatchLevel("Venture", "Averrum");
     expect(result).toEqual({ match: "none" });
   });
 
@@ -36,11 +41,16 @@ suite("Word matcher", () => {
     expect(result).toEqual({ match: "none" });
   });
 
-  test("Should match wrong letters", () => {
-    let result = wordsMatchLevel("wotd", "word");
-    expect(result).toEqual({ match: "some", level: 4 });
-
-    result = wordsMatchLevel("wotd", "Word");
-    expect(result).toEqual({ match: "some", level: 4 });
+  test("Should match numbers exactly", () => {
+    const result = wordsMatchLevel("404", "4040");
+    expect(result).toEqual({ match: "none" });
   });
+
+  // test("Should match wrong letters", () => {
+  //   let result = wordsMatchLevel("wotd", "word");
+  //   expect(result).toEqual({ match: "some", level: 4 });
+  //
+  //   result = wordsMatchLevel("wotd", "Word");
+  //   expect(result).toEqual({ match: "some", level: 4 });
+  // });
 });

@@ -47,7 +47,7 @@ suite("Entry matcher", () => {
     );
     expect(result).toEqual({
       match: "some",
-      level: 1,
+      level: 2,
     });
   });
 
@@ -59,16 +59,6 @@ suite("Entry matcher", () => {
       (w) => w === "common",
     );
     expect(result).toEqual({ match: "some", level: 2 });
-  });
-
-  test("Should match strip common and match one word missing", () => {
-    const result = entryMatcher(
-      ["value", "some", "missing"],
-      ["some", "common", "value"],
-      eqMatcher,
-      (w) => w === "common",
-    );
-    expect(result).toEqual({ match: "some", level: 3 });
   });
 
   test("Should not match more words missing", () => {

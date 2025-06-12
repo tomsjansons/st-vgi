@@ -1,18 +1,27 @@
+function cleanup(input: string): string {
+  let output = input.replaceAll(". ", " ");
+  output = input.replaceAll("&amp;", "&");
+  output = input.replaceAll(",", " ");
+  output = input.replaceAll(".", "");
+  return output;
+}
+
 export type PosibleSplit = {
   orig: string;
   splits: string[][];
 };
-export function getPossibleSplits(input: string): PosibleSplit {
+export function getPossibleSplits(orig: string): PosibleSplit {
   const possibleSplits: string[][] = [];
+  const input = cleanup(orig);
 
-  const charSplit = input
-    .split(/[^a-zA-Z0-9]/)
+  const spaceSplit = input
+    .split(" ")
     .map((word) => word.trim())
     .filter((word) => !!word);
 
-  possibleSplits.push(charSplit);
+  possibleSplits.push(spaceSplit);
 
-  const capitalisationSplit = charSplit
+  const capitalisationSplit = spaceSplit
     .map((word) => {
       let wordsRemain = word;
       const wordSplits: string[] = [];
@@ -33,13 +42,13 @@ export function getPossibleSplits(input: string): PosibleSplit {
     .flat();
 
   if (
-    !capitalisationSplit.every((word, wordIdx) => word === charSplit[wordIdx])
+    !capitalisationSplit.every((word, wordIdx) => word === spaceSplit[wordIdx])
   ) {
     possibleSplits.push(capitalisationSplit);
   }
 
   return {
-    orig: input,
+    orig,
     splits: possibleSplits,
   };
 }

@@ -23,23 +23,31 @@ export function entryMatcher(
   const wordsMatch = (w1: string, w2: string): boolean =>
     ["some", "exact"].includes(wordMatcherLevel(w1, w2).match);
 
-  if (entry1.every((word, idx) => entry2[idx] === word)) {
+  if (
+    entry1.every((word, idx) => entry2[idx] === word) &&
+    entry2.every((word, idx) => entry1[idx] === word)
+  ) {
     return {
       match: "exact",
     };
   }
 
-  if (
-    entry1.every((word, idx) => entry2[idx] && wordsMatch(word, entry2[idx]))
-  ) {
+  const entry1NoCommon = entry1.filter((w) => !isCommonWord(w));
+  const entry2NoCommon = entry2.filter((w) => !isCommonWord(w));
+
+  if (!entry1NoCommon.length || !entry2NoCommon.length) {
     return {
-      match: "some",
-      level: 1,
+      match: "none",
     };
   }
 
-  const entry1NoCommon = entry1.filter((w) => !isCommonWord(w));
-  const entry2NoCommon = entry2.filter((w) => !isCommonWord(w));
+  if (
+    Math.abs(entry1NoCommon.length - entry2NoCommon.length) > MAX_MISSING_WORDS
+  ) {
+    return {
+      match: "none",
+    };
+  }
 
   if (
     entry1NoCommon.length === entry2NoCommon.length &&
@@ -53,21 +61,21 @@ export function entryMatcher(
     };
   }
 
-  if (
-    Math.abs(entry1NoCommon.length - entry2NoCommon.length) <=
-      MAX_MISSING_WORDS &&
-    (entry1NoCommon.every((word) =>
-      entry2NoCommon.find((word2) => wordsMatch(word, word2)),
-    ) ||
-      entry2NoCommon.every((word) =>
-        entry1NoCommon.find((word2) => wordsMatch(word, word2)),
-      ))
-  ) {
-    return {
-      match: "some",
-      level: 3,
-    };
-  }
+  // if (
+  //   Math.abs(entry1NoCommon.length - entry2NoCommon.length) <=
+  //     MAX_MISSING_WORDS &&
+  //   (entry1NoCommon.every((word) =>
+  //     entry2NoCommon.find((word2) => wordsMatch(word, word2)),
+  //   ) ||
+  //     entry2NoCommon.every((word) =>
+  //       entry1NoCommon.find((word2) => wordsMatch(word, word2)),
+  //     ))
+  // ) {
+  //   return {
+  //     match: "some",
+  //     level: 3,
+  //   };
+  // }
 
   return {
     match: "none",

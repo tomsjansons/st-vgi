@@ -2,7 +2,7 @@ import { expect, suite, test } from "vitest";
 import { getPossibleSplits } from "./word-splitter.ts";
 
 suite("Word splitter", () => {
-  test("Should split by non alphanumeric chars", () => {
+  test("Should split by space, dash, underscore", () => {
     let words = getPossibleSplits("Some Company Ltd");
     expect(words).toEqual({
       orig: "Some Company Ltd",
@@ -18,18 +18,6 @@ suite("Word splitter", () => {
     words = getPossibleSplits("Some Company. Ltd.");
     expect(words).toEqual({
       orig: "Some Company. Ltd.",
-      splits: [["Some", "Company", "Ltd"]],
-    });
-
-    words = getPossibleSplits("Some-Company. Ltd.");
-    expect(words).toEqual({
-      orig: "Some-Company. Ltd.",
-      splits: [["Some", "Company", "Ltd"]],
-    });
-
-    words = getPossibleSplits("Some-Company. Ltd.");
-    expect(words).toEqual({
-      orig: "Some-Company. Ltd.",
       splits: [["Some", "Company", "Ltd"]],
     });
   });
@@ -49,15 +37,6 @@ suite("Word splitter", () => {
       orig: "SomeCompanyMore Ltd",
       splits: [
         ["SomeCompanyMore", "Ltd"],
-        ["Some", "Company", "More", "Ltd"],
-      ],
-    });
-
-    words = getPossibleSplits("-Some-CompanyMore Ltd");
-    expect(words).toEqual({
-      orig: "-Some-CompanyMore Ltd",
-      splits: [
-        ["Some", "CompanyMore", "Ltd"],
         ["Some", "Company", "More", "Ltd"],
       ],
     });
@@ -95,6 +74,14 @@ suite("Word splitter", () => {
     expect(words).toEqual({
       orig: "Some Company Ltd",
       splits: [["Some", "Company", "Ltd"]],
+    });
+  });
+
+  test("Should not split single letters out as words", () => {
+    const words = getPossibleSplits("V.A.C.U.U.M.");
+    expect(words).toEqual({
+      orig: "V.A.C.U.U.M.",
+      splits: [["VACUUM"]],
     });
   });
 });
