@@ -42,6 +42,7 @@ This section is written before any investigation so some assumptions will be inc
 
 ## Post game
 
+Install with `pnpm i`
 Run with `pnpm run dev https://url-to-file`
 
 ### TODOs
