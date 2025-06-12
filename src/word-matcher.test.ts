@@ -25,11 +25,16 @@ suite("Word matcher", () => {
     expect(result).toEqual({ match: "some", level: 1 });
   });
 
+  test("Should not match short words", () => {
+    const result = wordsMatchLevel("wrod", "word");
+    expect(result).toEqual({ match: "none" });
+  });
+
   test("Should match mixed letters", () => {
-    let result = wordsMatchLevel("wrod", "word");
+    let result = wordsMatchLevel("longwrod", "longword");
     expect(result).toEqual({ match: "some", level: 2 });
 
-    result = wordsMatchLevel("wrod", "Word");
+    result = wordsMatchLevel("longwrod", "longWord");
     expect(result).toEqual({ match: "some", level: 2 });
 
     result = wordsMatchLevel("space", "casep");

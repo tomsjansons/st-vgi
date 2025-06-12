@@ -25,7 +25,7 @@ suite("Common words", () => {
       ["cat", "yarn", "play"],
       ["book", "blue", "read"],
     ];
-    const commonWords = new CommonWords(input, (w1, w2) => {
+    const commonWords = CommonWords.build(input, (w1, w2) => {
       if (w1 === w2) {
         return {
           match: "exact",
