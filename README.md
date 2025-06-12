@@ -42,6 +42,8 @@ This section is written before any investigation so some assumptions will be inc
 
 ## Post game
 
+Run with `pnpm run dev https://url-to-file`
+
 ### TODOs
 
 - Examine output to identify more improvements. There are a quite a few levers to use in the different matchers to get an acceptable balance but longer investigation would be required
