@@ -12,7 +12,7 @@ if (!fileUrl) {
 
 const inputContents = await fetch(fileUrl);
 
-const inputList = (await inputContents.text()).split("\n").slice(0, 2000);
+const inputList = (await inputContents.text()).split("\n");
 console.log("Read successful, received ", inputList.length);
 
 const inputListWordSplit = inputList.map((entry) => getPossibleSplits(entry));
