@@ -1,5 +1,5 @@
-import { listMatcher } from "./list-matcher.ts";
 import { expect, suite, test } from "vitest";
+import { listMatcher } from "./list-matcher.ts";
 
 function eeqMatcher(e1: string[], e2: string[]) {
   if (e1[0] === e2[0]) {
@@ -27,23 +27,69 @@ suite("Deduper", () => {
   test("should dedupe", () => {
     const result = listMatcher(
       [
-        ["some", "entry"],
-        ["another", "entry"],
-        ["some", "other"],
-        ["third", "entry"],
+        { orig: "some entry", splits: [["some", "entry"]] },
+        { orig: "another entry", splits: [["another", "entry"]] },
+        { orig: "some other", splits: [["some", "other"]] },
+        { orig: "third entry", splits: [["third", "entry"]] },
       ],
       eeqMatcher,
       () => false,
       weqMatcher,
     );
-    console.log(result);
     expect(result).toEqual([
+      {
+        firstOrig: "some entry",
+        firstWordSplits: [["some", "entry"]],
+        possibleMatchesOrig: ["some other"],
+        wordSplits: [["some", "other"]],
+      },
+      {
+        firstOrig: "another entry",
+        firstWordSplits: [["another", "entry"]],
+        possibleMatchesOrig: [],
+        wordSplits: [],
+      },
+      {
+        firstOrig: "third entry",
+        firstWordSplits: [["third", "entry"]],
+        possibleMatchesOrig: [],
+        wordSplits: [],
+      },
+    ]);
+  });
+  test("should dedupe more variants", () => {
+    const result = listMatcher(
       [
-        ["some", "entry"],
-        ["some", "other"],
+        { orig: "some entry", splits: [["some", "entry"]] },
+        { orig: "another entry", splits: [["another", "entry"]] },
+        { orig: "some other", splits: [["some", "other"]] },
+        { orig: "third entry", splits: [["third", "entry"]] },
+        { orig: "third other", splits: [["third", "other"]] },
+        { orig: "some other other", splits: [["some", "other", "other"]] },
       ],
-      [["another", "entry"]],
-      [["third", "entry"]],
+      eeqMatcher,
+      () => false,
+      weqMatcher,
+    );
+    expect(result).toEqual([
+      {
+        firstOrig: "some entry",
+        firstWordSplits: [["some", "entry"]],
+        possibleMatchesOrig: ["some other", "some other other"],
+        wordSplits: [["some", "other"], ["some", "other", "other"]],
+      },
+      {
+        firstOrig: "another entry",
+        firstWordSplits: [["another", "entry"]],
+        possibleMatchesOrig: [],
+        wordSplits: [],
+      },
+      {
+        firstOrig: "third entry",
+        firstWordSplits: [["third", "entry"]],
+        possibleMatchesOrig: ["third other"],
+        wordSplits: [["third", "other"]],
+      },
     ]);
   });
 });

@@ -1,5 +1,5 @@
-import { entryMatcher } from "./entry-matcher.ts";
 import { expect, suite, test } from "vitest";
+import { entryMatcher } from "./entry-matcher.ts";
 
 function eqMatcher(w1: string, w2: string) {
   if (w1 === w2) {

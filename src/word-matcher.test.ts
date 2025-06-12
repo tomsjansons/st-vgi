@@ -1,5 +1,5 @@
-import { wordsMatchLevel } from "./word-matcher.ts";
 import { expect, suite, test } from "vitest";
+import { wordsMatchLevel } from "./word-matcher.ts";
 
 suite("Word matcher", () => {
   test("Should not match if length is off by more than 2", () => {

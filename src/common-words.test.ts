@@ -1,5 +1,5 @@
-import { CommonWords } from "./common-words.ts";
 import { expect, suite, test } from "vitest";
+import { CommonWords } from "./common-words.ts";
 
 suite("Common words", () => {
   test("Should count words", () => {

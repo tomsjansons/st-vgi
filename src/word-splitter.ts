@@ -1,4 +1,8 @@
-export function getPossibleSplits(input: string): string[][] {
+export type PosibleSplit = {
+  orig: string;
+  splits: string[][];
+};
+export function getPossibleSplits(input: string): PosibleSplit {
   const possibleSplits: string[][] = [];
 
   const charSplit = input
@@ -34,5 +38,8 @@ export function getPossibleSplits(input: string): string[][] {
     possibleSplits.push(capitalisationSplit);
   }
 
-  return possibleSplits;
+  return {
+    orig: input,
+    splits: possibleSplits,
+  };
 }
