@@ -5,13 +5,14 @@ import { wordsMatchLevel } from "./word-matcher.ts";
 suite("E2E", () => {
   test("Should match", () => {
     const result = entryMatcher(
-      ["ABG"],
-      ["abigfluffyyak"],
+      ["Activision", "Value"],
+      ["Activision", "Value", "Inc"],
       wordsMatchLevel,
       () => false,
     );
     expect(result).toEqual({
-      match: "none",
+      match: "some",
+      level: 3,
     });
   });
   test("Should match", () => {

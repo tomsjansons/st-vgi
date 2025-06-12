@@ -31,13 +31,11 @@ const matchedList = listMatcher(
   wordsMatchLevel,
 );
 
-const dedupedList = matchedList;
-// .filter(
-//   (entry) => entry.possibleMatchesOrig.length > 1,
-// );
+const dedupedList = matchedList.filter(
+  (entry) => entry.possibleMatchesOrig.length > 0,
+);
 
 dedupedList.forEach((entry) => {
-  console.log(entry.firstOrig, entry.firstWordSplits);
-  console.log(entry.possibleMatchesOrig);
+  console.log(entry.firstOrig, entry.possibleMatchesOrig);
 });
 console.log(dedupedList.length);

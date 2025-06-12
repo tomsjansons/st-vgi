@@ -40,7 +40,11 @@ This section is written before any investigation so some assumptions will be inc
   - First pass find common words, warn for any new common words that aren't marked as exceptions
   - Second pass all entries and match by stripping common words and applying matching
 
-## After some analysis
+## Post game
 
-- Some special cases identified
-  - Treat &amp as a special char as it's some encoding thing from html
+### TODOs
+
+- Examine output to identify more improvements. There are a quite a few levers to use in the different matchers to get an acceptable balance but longer investigation would be required
+- Improve performance. It can definitely be improved but I like the mantra "make it work, make it right, make it fast". Now when all the edge cases and oddities are understood, the next iteration can be faster
+- Manually review and better define the common word list (apparently Aaron is a popular word to use in game studio names in my dev data subset)
+- Write more tests - the last fixes are not covered by tests at the moment

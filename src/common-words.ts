@@ -2,7 +2,10 @@ import type { wordsMatchLevel } from "./word-matcher.ts";
 
 export class CommonWords {
   private readonly commonWords: [string, number][] = [];
-  constructor(input: string[][], wordMatcher: typeof wordsMatchLevel) {
+  constructor(
+    input: string[][],
+    private readonly wordMatcher: typeof wordsMatchLevel,
+  ) {
     input.flat().forEach((word) => {
       const idx = this.commonWords.findIndex(
         ([cw]) =>
@@ -16,10 +19,15 @@ export class CommonWords {
       }
     });
     this.commonWords.sort((a, b) => b[1] - a[1]);
+    const top = this.commonWords.toSpliced(10);
+    console.log("Common words top 10", top);
   }
 
   public isCommonWord(word: string): boolean {
-    return this.commonWords.toSpliced(10).some(([cw]) => cw == word);
+    const top = this.commonWords.toSpliced(10);
+    return top.some(([cw]) =>
+      ["exact", "some"].includes(this.wordMatcher(word, cw).match),
+    );
   }
 
   public getWordRecurrenceCount(word: string): number {
